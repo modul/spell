@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
   parser = argparse.ArgumentParser(description='Spell text using a spelling alphabet')
   parser.add_argument('text', nargs='+', help='text to be spelled')
-  parser.add_argument('--table', '-t', choices=['german', 'itu'], default='german', help='spelling table to use')
+  parser.add_argument('--table', '-t', choices=['german', 'itu'], default='itu', help='spelling table to use')
 
   args = parser.parse_args()
 
