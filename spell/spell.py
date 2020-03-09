@@ -1,15 +1,21 @@
 import yaml
+from pkg_resources import resource_listdir, resource_stream
+from os.path import splitext, join
 
+NAME = "spell"
 VERSION = "0.1.0"
+DATADIR = 'tables'
+DEFAULTTABLE = 'itu'
 
-TABLES = {
-  'german': 'german.yaml',
-  'itu': 'itu.yaml'
-}
+__table_files = resource_listdir(__name__, DATADIR)
+__table_names = list(map(lambda f: splitext(f)[0], __table_files))
+
+TABLES = dict(zip(__table_names, [join(DATADIR, f) for f in __table_files]))
+
 
 class Speller:
 
-  def __init__(self, tableName):
+  def __init__(self, tableName=DEFAULTTABLE):
     self.table = tableName
 
   @property
@@ -18,8 +24,8 @@ class Speller:
 
   @table.setter
   def table(self, name):
-    with open(TABLES[name]) as fp:
-      self._table = yaml.safe_load(fp)
+    with resource_stream(__name__, TABLES[name]) as s:
+      self._table = yaml.safe_load(s)
 
   def spell(self, word, delimiter=', '):
     return delimiter.join(
@@ -35,13 +41,13 @@ class Speller:
     return key.upper() in self.table
 
 
-if __name__ == '__main__':
+def main():
   import argparse
 
   parser = argparse.ArgumentParser(description='Spell text using a spelling alphabet')
   parser.add_argument('text', nargs='+', help='text to be spelled')
   parser.add_argument('--version', '-v', action='version', version=f'%(prog)s {VERSION}')
-  parser.add_argument('--table', '-t', choices=['german', 'itu'], default='itu', help='spelling table to use')
+  parser.add_argument('--table', '-t', choices=__table_names, default=DEFAULTTABLE, help='spelling table to use')
 
   args = parser.parse_args()
 
