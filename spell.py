@@ -1,5 +1,7 @@
 import yaml
 
+VERSION = "0.1.0"
+
 TABLES = {
   'german': 'german.yaml',
   'itu': 'itu.yaml'
@@ -13,18 +15,18 @@ class Speller:
   @property
   def table(self):
     return self._table
-  
+
   @table.setter
   def table(self, name):
     with open(TABLES[name]) as fp:
       self._table = yaml.safe_load(fp)
-  
+
   def spell(self, word, delimiter=', '):
     return delimiter.join(
-      self[letter] if letter in self 
-      else letter 
+      self[letter] if letter in self
+      else letter
       for letter in word)
-  
+
   def __getitem__(self, key):
     letter = self.table[key.upper()]
     return key.islower() and letter.lower() or letter.upper()
@@ -38,6 +40,7 @@ if __name__ == '__main__':
 
   parser = argparse.ArgumentParser(description='Spell text using a spelling alphabet')
   parser.add_argument('text', nargs='+', help='text to be spelled')
+  parser.add_argument('--version', '-v', action='version', version=f'%(prog)s {VERSION}')
   parser.add_argument('--table', '-t', choices=['german', 'itu'], default='itu', help='spelling table to use')
 
   args = parser.parse_args()
