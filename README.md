@@ -2,7 +2,14 @@
 
 # Spell
 
-Spell is a CLI tool and library to spell a given text using different spelling alphabets.
+Spell is a CLI tool and library to spell a given text using different spelling alphabets:
+
+```sh
+$ spell Foobar fantastic!
+FOXTROTT, oscar, oscar, bravo, alfa, romeo
+foxtrott, alfa, november, tango, alfa, sierra, tango, india, charlie, !
+$
+```
 
 ## Installation
 
@@ -32,7 +39,6 @@ optional arguments:
   --version, -v         show program's version number and exit
   --table {german,itu}, -t {german,itu}
                         spelling table to use (default: itu)
-
 ```
 
 ## Credits
