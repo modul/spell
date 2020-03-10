@@ -28,4 +28,3 @@ setup(
     author = "Remo Giermann",
     author_email = "mo@liberejo.de",
 )
-
