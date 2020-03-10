@@ -43,17 +43,22 @@ class Speller:
         return key.upper() in self.table
 
 
-def main():
+def main(*args):
     import argparse
+    import sys
 
     parser = argparse.ArgumentParser(description='Spell text using a spelling alphabet')
     parser.add_argument('text', nargs='+', help='text to be spelled')
-    parser.add_argument('--version', '-v', action='version', version=f'%(prog)s {VERSION}')
-    parser.add_argument('--table', '-t', choices=_TABLE_NAMES, default=DEFAULTTABLE, help='spelling table to use')
+    parser.add_argument('--version', '-v', action='version', version=f'{NAME} {VERSION}')
 
-    args = parser.parse_args()
+    parser.add_argument('--table', '-t',
+                        choices=_TABLE_NAMES,
+                        default=DEFAULTTABLE,
+                        help=f'spelling table to use (default: {DEFAULTTABLE})')
 
-    speller = Speller(args.table)
+    opts = parser.parse_args(args or sys.argv[1:])
 
-    for word in args.text:
+    speller = Speller(opts.table)
+
+    for word in opts.text:
         print(speller.spell(word))
