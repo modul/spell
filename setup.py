@@ -17,6 +17,9 @@ setup(
     name = name,
     version = version,
     packages = [name],
+    install_requires = [
+        "pyyaml"
+    ],
     package_data = {
         "spell": ["tables/*.yml"]
     },
